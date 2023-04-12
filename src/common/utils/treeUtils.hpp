@@ -9,9 +9,9 @@
 #include <map>
 #include <numeric>
 
-#include "../edge.hpp"
-#include "../../graphs/universalGraph.hpp"
-#include "../../graphs/trees/generalTree.hpp"
+#include "src/common/edge.hpp"
+#include "src/graphs/universalGraph.hpp"
+#include "src/graphs/trees/generalTree.hpp"
 #include "mathUtils.hpp"
 #include "gmpxx.h"
 

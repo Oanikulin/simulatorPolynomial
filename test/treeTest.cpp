@@ -3,11 +3,11 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/graphs/universalGraph.hpp"
-#include "../src/graphs/trees/generalTree.hpp"
-#include "../src/common/edge.hpp"
-#include "../src/common/utils/graphUtils.hpp"
-#include "../src/common/utils/treeUtils.hpp"
+#include "src/graphs/universalGraph.hpp"
+#include "src/graphs/trees/generalTree.hpp"
+#include "src/common/edge.hpp"
+#include "src/common/utils/graphUtils.hpp"
+#include "src/common/utils/treeUtils.hpp"
 #include "gmpxx.h"
 
 // Demonstrate some basic assertions.

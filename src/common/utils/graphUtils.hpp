@@ -3,18 +3,22 @@
 #include <iostream>
 #include <fstream>
 
-#include "../edge.hpp"
-#include "../../graphs/universalGraph.hpp"
+#include "src/common/edge.hpp"
+#include "src/graphs/universalGraph.hpp"
 #include "gmpxx.h"
 
 
 std::atomic<int64_t> edge::edgeCounter(0);
 
 inline universalGraph readGraph(std::istream& in) {
+    int cnt;
+    in >> cnt;
     int from, to;
     mpq_class value;
     universalGraph res;
-    while (in >> from >> to >> value) {
+    while (cnt) {
+        --cnt;
+        in >> from >> to >> value;
         res.add_edge({from, to, value});
     }
     return res;

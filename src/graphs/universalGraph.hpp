@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../common/edge.hpp"
+#include "src/common/edge.hpp"
 
 using std::ostream;
 using std::vector;

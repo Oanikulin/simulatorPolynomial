@@ -9,10 +9,10 @@
 #include <optional>
 #include <numeric>
 
-#include "../../common/edge.hpp"
-#include "../../graphs/universalGraph.hpp"
-#include "../../graphs/trees/generalTree.hpp"
-#include "../../common/utils/mathUtils.hpp"
+#include "src/common/edge.hpp"
+#include "src/graphs/universalGraph.hpp"
+#include "src/graphs/trees/generalTree.hpp"
+#include "src/common/utils/mathUtils.hpp"
 #include "gmpxx.h"
 
 using std::map;

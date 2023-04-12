@@ -5,8 +5,8 @@
 #include <vector>
 #include <map>
 
-#include "../../common/edge.hpp"
-#include "../universalGraph.hpp"
+#include "src/common/edge.hpp"
+#include "src/graphs/universalGraph.hpp"
 
 using std::ostream;
 using std::vector;
