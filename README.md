@@ -1,1 +1,1 @@
-#Simulator for random walks on metric graphs
+# Simulator for random walks on metric graphs
