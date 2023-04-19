@@ -15,7 +15,7 @@ inline mpq_class factorial(int value) {
 inline mpq_class mpqPow(int base, int pw) {
     mpq_class res(1);
     for (int i = 1; i <= pw; ++i) {
-        res *= 2;
+        res *= base;
     }
     return res;
 }

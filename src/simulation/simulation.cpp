@@ -54,3 +54,7 @@ void MovementSimulation::addPointsForVertex(int v, mpq_class startTime) {
 int64_t MovementSimulation::getStep() noexcept {
     return step;
 }
+
+mpq_class MovementSimulation::getEarliestUnmetTime() {
+    return pointsByEnd.begin()->first;
+}

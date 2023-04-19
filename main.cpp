@@ -5,6 +5,8 @@
 #include "src/common/edge.hpp"
 #include "src/common/utils/graphUtils.hpp"
 #include "src/common/utils/treeUtils.hpp"
+#include "src/simulation/verification/baseGenerator.hpp"
+#include "src/simulation/verification/treeGenerator.hpp"
 #include "gmpxx.h"
 
 #include <optional>
@@ -21,7 +23,16 @@ void printState(MovementSimulation sim) {
     }
     std::cout << endl;
 }
+
+void printRandomTree() {
+    std::cout << "Random tree: depth = 4" << std::endl;
+    universalGraph g = treeGenerator().generateGraph(4);
+    generalTree tr(g, 0);
+    tr.printGraph(std::cout);
+}
+
 int main(int argc, char** argv) {
+    printRandomTree();
     universalGraph gr;
     if (argc != 1) {
         gr = readGraphFromFile(argv[1]);

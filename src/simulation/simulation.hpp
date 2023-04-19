@@ -22,6 +22,8 @@ public:
 
     int64_t getStep() noexcept;
 
+    mpq_class getEarliestUnmetTime();
+
     std::vector<eventPoint> getCurrentPoints();
 
 protected:

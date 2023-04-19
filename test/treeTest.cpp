@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include "src/graphs/universalGraph.hpp"
 #include "src/graphs/trees/generalTree.hpp"
+#include "src/simulation/verification/baseGenerator.hpp"
+#include "src/simulation/verification/treeGenerator.hpp"
 #include "src/common/edge.hpp"
 #include "src/common/utils/graphUtils.hpp"
 #include "src/common/utils/treeUtils.hpp"
@@ -27,4 +29,12 @@ TEST(treeTest, basicValuesStar) {
     generalTree tr(testGraph, 0);
     EXPECT_EQ(polynomialFirstTerm(tr), mpq_class(247, 48));
     EXPECT_EQ(polynomialSecondTerm(tr), mpq_class(105, 4) * mpq_class(101, 210));
+}
+
+TEST(treeTest, generateRandomTree) {
+    for (int i = 0; i < 10; ++i) {
+        universalGraph g = treeGenerator().generateGraph(i + 2);
+        generalTree tr(g, 0);
+        EXPECT_TRUE(tr.isCorrect());
+    }
 }

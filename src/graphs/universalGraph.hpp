@@ -22,7 +22,7 @@ protected:
 public:
     universalGraph() = default;
 
-    universalGraph(std::unordered_map<int, vector<edge>> graph) : g(std::move(graph))
+    explicit universalGraph(std::unordered_map<int, vector<edge>> graph) : g(std::move(graph))
     {
     }
 
