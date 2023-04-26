@@ -61,3 +61,121 @@ int getMovingPointCount(const std::vector<int>& vertexCount, const std::vector<m
     }
     return ans;
 }
+
+int getSamePointSolutionCount(const std::vector<mpq_class>& edge_i, const std::vector<mpq_class>& edge_j, int i, int j, mpq_class time) {
+    std::vector<mpq_class> coef;
+    for (int k = 0; k < i; ++k) {
+        time -= edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    for (int k = 0; k < j; ++k) {
+        time -= edge_j[k];
+        coef.push_back(2 * edge_j[k]);
+    }
+    if (time < 0) {
+        return 0;
+    }
+    return 2 * countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+}
+
+int getDifferentPointsSolutionCount(const std::vector<mpq_class>& edge_i, const std::vector<mpq_class>& edge_j, int i, int j, int il, int jl, mpq_class time) {
+    std::vector<mpq_class> coef;
+    mpq_class t = time;
+    int ans = 0;
+    for (int k = 0; k < j; ++k) {
+        time -= edge_j[k];
+        coef.push_back(2 * edge_j[k]);
+    }
+    for (int k = j; k < jl; ++k) {
+        time -= 2 * edge_j[k];
+        coef.push_back(2 * edge_j[k]);
+    }
+    for (int k = 0; k < i - 1; ++k) {
+        time -= edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    time -= edge_i[i];
+    for (int k = i + 1; k < il; ++k) {
+        time -= 2 * edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    if (time >= 0) {
+        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    }
+
+    time = t;
+    coef.resize(0);
+    for (int k = 0; k < jl; ++k) {
+        time -= edge_j[k];
+        coef.push_back(2 * edge_j[k]);
+    }
+    for (int k = 0; k < i - 1; ++k) {
+        time -= edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    time -= edge_i[i];
+    for (int k = i + 1; k < il; ++k) {
+        time -= 2 * edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    if (time >= 0) {
+        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    }
+    return ans;
+}
+
+int getOneDifferentPointSolutionCount (const std::vector<mpq_class>& edge_i, const std::vector<mpq_class>& edge_j, int i, int j, int il, int jl, mpq_class time) {
+    std::vector<mpq_class> coef;
+    mpq_class t = time;
+    int ans = 0;
+    for (int k = 0; k < j; ++k) {
+        time -= edge_j[k];
+        coef.push_back(2 * edge_j[k]);
+    }
+    for (int k = 0; k < i - 1; ++k) {
+        time -= edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    time -= edge_i[i];
+    for (int k = i + 1; k < il; ++k) {
+        time -= 2 * edge_i[k];
+        coef.push_back(2 * edge_i[k]);
+    }
+    if (time >= 0) {
+        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    }
+
+    coef.push_back(2 * edge_i[i]);
+    if (time >= 0) {
+        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    }
+    return ans;
+}
+
+int getQuadraticGridPointCount(const std::pair<std::vector<mpq_class>, std::vector<mpq_class>>& edges, mpq_class time) {
+    int height = edges.first.size();
+    int w = edges.second.size();
+    int ans = 2;
+    for (int il = 1; il < height; ++il) {
+        for (int jl = 1; jl < w; ++jl) {
+            for (int i = 1; i <= il; ++i) {
+                for (int j = 1; j <= jl; ++j) {
+                    if (i == il && j == jl) {
+                        ans += getSamePointSolutionCount(edges.first, edges.second, i, j, time);
+                    }
+                    else if (i != il && j != jl) {
+                        ans += getDifferentPointsSolutionCount(edges.first, edges.second, i, j, il, jl, time);
+                    }
+                    else if (i != il) {
+                        ans += getOneDifferentPointSolutionCount(edges.first, edges.second, i, j, il, jl, time);
+                    }
+                    //j != jl
+                    else {
+                        ans += getOneDifferentPointSolutionCount(edges.second, edges.first, j, i, jl, il, time);
+                    }
+                }
+            }
+        }
+    }
+    return ans;
+}

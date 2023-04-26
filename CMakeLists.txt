@@ -60,5 +60,14 @@ target_link_libraries(
         gmpxx
 )
 
+add_executable(MetricGridAutotest src/simulation/verification/autoGridVerification.cpp
+        src/graphs/universalGraph.cpp
+        src/graphs/trees/generalTree.cpp
+        src/simulation/simulation.cpp
+        src/simulation/verification/baseGenerator.cpp
+        src/simulation/verification/quadraticGridGenerator.cpp)
+
+target_link_libraries(MetricGridAutotest gmp gmpxx)
+
 include(GoogleTest)
 gtest_discover_tests(treeTest)

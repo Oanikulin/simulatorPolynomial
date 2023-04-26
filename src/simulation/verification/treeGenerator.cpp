@@ -16,11 +16,14 @@
 
 #include "gmpxx.h"
 
-universalGraph treeGenerator::generateGraph(int depth) {
+universalGraph treeGenerator::generateGraph(int depth, int precision) {
     std::mt19937 rand(time(0));
     universalGraph g;
+    if (precision == -1) {
+        precision =  1LL * 2 * depth;
+    }
     std::vector<std::vector<int>> vertex(depth);
-    edges = generateSemiIndependentQuotes(depth, 10000, 1LL * 2 * depth * depth);
+    edges = generateSemiIndependentQuotes(depth, 10000, precision);
     vertex[0].push_back(0);
     vertexCount.resize(1, 1);
     int cnt = 1;

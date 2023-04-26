@@ -10,7 +10,12 @@ std::vector<mpq_class> baseGenerator::generateSemiIndependentQuotes(int n, int s
     std::vector<mpq_class> res;
     std::vector<int> primeNumbers = getPrimes(startingStep, n);
     for (int i = 0; i < n; ++i) {
-        res.push_back(mpq_class(1, primeNumbers[i]));
+        mpf_class prime_root(1, precision);
+        if (precision != 0)
+            prime_root /= sqrt(mpf_class(primeNumbers[i], precision));
+        else
+            prime_root /= mpf_class(primeNumbers[i], precision);
+        res.push_back(mpq_class(1, 1) + mpq_class(prime_root));
     }
     std::random_shuffle(res.begin(), res.end());
     return res;

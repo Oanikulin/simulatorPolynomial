@@ -9,7 +9,7 @@
 
 class treeGenerator : private baseGenerator {
 public:
-    universalGraph generateGraph(int depth) override;
+    universalGraph generateGraph(int depth, int precision = -1) override;
 
     std::vector<mpq_class> getLastEdgeLength();
 
