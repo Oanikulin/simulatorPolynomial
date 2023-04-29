@@ -12,11 +12,11 @@
 
 #include "gmpxx.h"
 
-universalGraph quadraticGridGenerator::generateGraph(int depth) {
-    return generateGraph(depth, depth);
+universalGraph quadraticGridGenerator::generateGraph(int depth, int precision) {
+    return generateGraphPrecision(depth, depth, precision);
 }
 
-universalGraph quadraticGridGenerator::generateGraph(int height, int width, int precision) {
+universalGraph quadraticGridGenerator::generateGraphPrecision(int height, int width, int precision) {
     std::mt19937 rand(time(0));
     universalGraph g;
     int totalSize = height + width;
@@ -33,15 +33,18 @@ universalGraph quadraticGridGenerator::generateGraph(int height, int width, int 
             widthEdges.push_back(totalEdges[i]);
     }
     edges = {heightEdges, widthEdges};
-    vertexes.resize(height, std::vector(width, 0));
+    vertexes.resize(height);
+    for (int i = 0; i < height; ++i) {
+        vertexes[i].resize(width);
+    }
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             vertexes[i][j] = i * width + j;
             if (i + 1 < height) {
-                g.add_edge(edge(i * width + j, (i + 1) * width + j, heightEdges[i + 1]));
+                g.add_edge(edge(i * width + j, (i + 1) * width + j, heightEdges[i]));
             }
             if (j  + 1 < width) {
-                g.add_edge(edge(i * width + j, i * width + j + 1, widthEdges[j + 1]));
+                g.add_edge(edge(i * width + j, i * width + j + 1, widthEdges[j]));
             }
         }
     }

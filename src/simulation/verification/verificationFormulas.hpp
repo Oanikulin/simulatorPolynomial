@@ -51,12 +51,12 @@ int f(const std::vector<mpq_class>& edges, mpq_class time, int L, int K) {
     return cnt;
 }
 
-int getMovingPointCount(const std::vector<int>& vertexCount, const std::vector<mpq_class>& edges, mpq_class time) {
+long long getMovingPointCount(const std::vector<int>& vertexCount, const std::vector<mpq_class>& edges, mpq_class time) {
     int md = vertexCount.size();
-    int ans = vertexCount[1];
+    long long  ans = vertexCount[1];
     for (int i = 2; i < md; ++i) {
         for (int k = 1; k <= i; ++k) {
-            ans += vertexCount[k] * f(edges, time, i, k);
+            ans += 1LL * vertexCount[k] * f(edges, time, i, k);
         }
     }
     return ans;
@@ -64,6 +64,7 @@ int getMovingPointCount(const std::vector<int>& vertexCount, const std::vector<m
 
 int getSamePointSolutionCount(const std::vector<mpq_class>& edge_i, const std::vector<mpq_class>& edge_j, int i, int j, mpq_class time) {
     std::vector<mpq_class> coef;
+    //std::cout << time << std::endl;
     for (int k = 0; k < i; ++k) {
         time -= edge_i[k];
         coef.push_back(2 * edge_i[k]);
@@ -75,6 +76,7 @@ int getSamePointSolutionCount(const std::vector<mpq_class>& edge_i, const std::v
     if (time < 0) {
         return 0;
     }
+    //std::cout << "same " << i << " " << j << " " << time << std::endl;
     return 2 * countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
 }
 
@@ -82,44 +84,52 @@ int getDifferentPointsSolutionCount(const std::vector<mpq_class>& edge_i, const 
     std::vector<mpq_class> coef;
     mpq_class t = time;
     int ans = 0;
-    for (int k = 0; k < j; ++k) {
-        time -= edge_j[k];
-        coef.push_back(2 * edge_j[k]);
-    }
-    for (int k = j; k < jl; ++k) {
-        time -= 2 * edge_j[k];
-        coef.push_back(2 * edge_j[k]);
-    }
-    for (int k = 0; k < i - 1; ++k) {
-        time -= edge_i[k];
-        coef.push_back(2 * edge_i[k]);
-    }
-    time -= edge_i[i];
-    for (int k = i + 1; k < il; ++k) {
-        time -= 2 * edge_i[k];
-        coef.push_back(2 * edge_i[k]);
-    }
-    if (time >= 0) {
-        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    if (i != 0) {
+        for (int k = 0; k < j; ++k) {
+            time -= edge_j[k];
+            coef.push_back(2 * edge_j[k]);
+        }
+        for (int k = j; k < jl; ++k) {
+            time -= 2 * edge_j[k];
+            coef.push_back(2 * edge_j[k]);
+        }
+        for (int k = 0; k < i - 1; ++k) {
+            time -= edge_i[k];
+            coef.push_back(2 * edge_i[k]);
+        }
+        time -= edge_i[i - 1];
+        for (int k = i; k < il; ++k) {
+            time -= 2 * edge_i[k];
+            coef.push_back(2 * edge_i[k]);
+        }
+        if (time >= 0) {
+            ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+        }
     }
 
-    time = t;
-    coef.resize(0);
-    for (int k = 0; k < jl; ++k) {
-        time -= edge_j[k];
-        coef.push_back(2 * edge_j[k]);
-    }
-    for (int k = 0; k < i - 1; ++k) {
-        time -= edge_i[k];
-        coef.push_back(2 * edge_i[k]);
-    }
-    time -= edge_i[i];
-    for (int k = i + 1; k < il; ++k) {
-        time -= 2 * edge_i[k];
-        coef.push_back(2 * edge_i[k]);
-    }
-    if (time >= 0) {
-        ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+    if (j != 0) {
+        time = t;
+        coef.resize(0);
+        for (int k = 0; k < i; ++k) {
+            time -= edge_i[k];
+            coef.push_back(2 * edge_i[k]);
+        }
+        for (int k = i; k < il; ++k) {
+            time -= 2 * edge_i[k];
+            coef.push_back(2 * edge_i[k]);
+        }
+        for (int k = 0; k < j - 1; ++k) {
+            time -= edge_j[k];
+            coef.push_back(2 * edge_j[k]);
+        }
+        time -= edge_j[j - 1];
+        for (int k = j; k < jl; ++k) {
+            time -= 2 * edge_j[k];
+            coef.push_back(2 * edge_j[k]);
+        }
+        if (time >= 0) {
+            ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
+        }
     }
     return ans;
 }
@@ -136,15 +146,15 @@ int getOneDifferentPointSolutionCount (const std::vector<mpq_class>& edge_i, con
         time -= edge_i[k];
         coef.push_back(2 * edge_i[k]);
     }
-    time -= edge_i[i];
-    for (int k = i + 1; k < il; ++k) {
+    if (i != 0)
+        time -= edge_i[i - 1];
+    for (int k = i; k < il; ++k) {
         time -= 2 * edge_i[k];
         coef.push_back(2 * edge_i[k]);
     }
-    if (time >= 0) {
+    if (i != 0 && time >= 0) {
         ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
     }
-
     coef.push_back(2 * edge_i[i]);
     if (time >= 0) {
         ans += countSolutionNumber(coef, time, coef.size(), coef.size() + 5, 0);
@@ -156,22 +166,42 @@ int getQuadraticGridPointCount(const std::pair<std::vector<mpq_class>, std::vect
     int height = edges.first.size();
     int w = edges.second.size();
     int ans = 2;
-    for (int il = 1; il < height; ++il) {
-        for (int jl = 1; jl < w; ++jl) {
-            for (int i = 1; i <= il; ++i) {
-                for (int j = 1; j <= jl; ++j) {
+    for (int il = 0; il < height; ++il) {
+        for (int jl = 0; jl < w; ++jl) {
+            for (int i = 0; i <= il; ++i) {
+                for (int j = 0; j <= jl; ++j) {
+                    if (i == 0 && j == 0 && il == 0 && jl == 0)
+                        continue;
+                    //std::cout << "syart " << i << " " << j << " " << il << " " << jl << std::endl;
+                    int prevans = ans;
                     if (i == il && j == jl) {
+                        //std::cout << "Same point" << std::endl;
                         ans += getSamePointSolutionCount(edges.first, edges.second, i, j, time);
+                        /*if (prevans != ans) {
+                            std::cout << "same point  " << i << " " << j << " " << il << " " << jl << " " << prevans << " " << ans << std::endl;
+                        }*/
                     }
                     else if (i != il && j != jl) {
+                        prevans = ans;
                         ans += getDifferentPointsSolutionCount(edges.first, edges.second, i, j, il, jl, time);
+                        /*if (prevans != ans) {
+                            std::cout << "all different " << i << " " << j << " " << il << " " << jl << " " << prevans << " " << ans << std::endl;
+                        }*/
                     }
                     else if (i != il) {
+                        prevans = ans;
                         ans += getOneDifferentPointSolutionCount(edges.first, edges.second, i, j, il, jl, time);
+                        /*if (prevans != ans) {
+                            std::cout << "i different " << i << " " << j << " " << il << " " << jl << " " << prevans << " " << ans << std::endl;
+                        }*/
                     }
                     //j != jl
                     else {
+                        prevans = ans;
                         ans += getOneDifferentPointSolutionCount(edges.second, edges.first, j, i, jl, il, time);
+                        /*if (prevans != ans) {
+                            std::cout << "j different " << i << " " << j << " " << il << " " << jl << " " << prevans << " " << ans << std::endl;
+                        }*/
                     }
                 }
             }

@@ -29,7 +29,7 @@ bool checkRandomTree(std::mt19937& rnd) {
     int height = rnd() % 30 + 2;
     int width = rnd() % (std::min(30, 33 - height)) + 2;
     quadraticGridGenerator gen;
-    universalGraph g = gen.generateGraph(height, width);
+    universalGraph g = gen.generateGraphPrecision(height, width, 2 * height + 2 * width);
     auto simulation = MovementSimulation(g, 0);
     mpq_class lastTime = simulation.getEarliestUnmetTime();
     for (int i = 0; i < std::min(height - 2, width - 2); ++i) {
@@ -37,8 +37,8 @@ bool checkRandomTree(std::mt19937& rnd) {
         int theoreticalCount = getQuadraticGridPointCount(gen.getLastEdgeLength(), lastTime);
         simulation.advanceSteps(1);
         int calculatedCount = simulation.getMovingPointsCount();
-        if (calculatedCount == 0) {
-            std::cout << "Error. Theoretical point count: " << "\n";
+        if (calculatedCount != theoreticalCount) {
+            std::cout << "Error. Theoretical point count: " << theoreticalCount << "\n";
             std::cout << "Simulation point count: " << calculatedCount << "\n";
             //g.printGraph(std::cout);
             //std::cout << "\n";
@@ -56,7 +56,7 @@ bool checkRandomTree(std::mt19937& rnd) {
 }
 
 int main(int argc, char** argv) {
-    std::mt19937 rand(time(0));
+    std::mt19937 rand(0);//time(0));
     int iteration_count = 10;
     if (argc != 1) {
         iteration_count = std::stoi(argv[1]);

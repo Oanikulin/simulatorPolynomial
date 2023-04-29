@@ -7,7 +7,7 @@
 
 class baseGenerator {
 public:
-    virtual universalGraph generateGraph(int depth) = 0;
+    virtual universalGraph generateGraph(int depth, int precision = -1) = 0;
 
 
     virtual  ~baseGenerator() = default;

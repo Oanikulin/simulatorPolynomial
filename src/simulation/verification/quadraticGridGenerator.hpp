@@ -9,9 +9,9 @@
 
 class quadraticGridGenerator : private baseGenerator {
 public:
-    universalGraph generateGraph(int depth) override;
+    universalGraph generateGraph(int depth, int precision = -1) override;
 
-    virtual universalGraph generateGraph(int height, int width, int precision = -1);
+    virtual universalGraph generateGraphPrecision(int height, int width, int precision = -1);
 
     std::pair<std::vector<mpq_class>, std::vector<mpq_class>> getLastEdgeLength();
 

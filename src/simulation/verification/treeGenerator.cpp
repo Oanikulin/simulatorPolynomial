@@ -45,6 +45,20 @@ universalGraph treeGenerator::generateGraph(int depth, int precision) {
     return g;
 }
 
+void treeGenerator::pseudoGenerateGraph(int depth, int precision) {
+    std::mt19937 rand(time(0));
+    if (precision == -1) {
+        precision =  1LL * 2 * depth;
+    }
+    edges = generateSemiIndependentQuotes(depth, 10000, precision);
+    vertexCount.resize(1, 1);
+    int cnt = 1;
+    for (int i = 1; i < depth; ++i) {
+        int val = getNextSize(vertexCount[i-1], rand);
+        vertexCount.push_back(val);
+    }
+    return;
+}
 std::vector<mpq_class> treeGenerator::getLastEdgeLength() {
     return edges;
 }

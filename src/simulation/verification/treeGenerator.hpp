@@ -11,6 +11,8 @@ class treeGenerator : private baseGenerator {
 public:
     universalGraph generateGraph(int depth, int precision = -1) override;
 
+    void pseudoGenerateGraph(int depth, int precision = -1);
+
     std::vector<mpq_class> getLastEdgeLength();
 
     std::vector<int> getLastVertexByDepthCount();
