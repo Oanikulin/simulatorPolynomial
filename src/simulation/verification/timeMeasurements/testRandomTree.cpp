@@ -26,7 +26,7 @@ void measureRunTime(int n, int iterationCount) {
         for (int j = 0; j < iterationCount; ++j) {
             const auto& start = std::chrono::high_resolution_clock::now();
             gen.pseudoGenerateGraph(i);
-            int theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i);
+            long long theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i);
             const auto& stop = std::chrono::high_resolution_clock::now();
             current += (stop - start);
             pointCount += theoreticalCount;
@@ -42,7 +42,7 @@ void measureRunTime(int n, int iterationCount) {
         for (int j = 0; j < iterationCount; ++j) {
             const auto& start = std::chrono::high_resolution_clock::now();
             gen.pseudoGenerateGraph(i);
-            int theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i/2);
+            long long theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i/2);
             const auto& stop = std::chrono::high_resolution_clock::now();
             currentHalf += (stop - start);
             pointCount += theoreticalCount;
