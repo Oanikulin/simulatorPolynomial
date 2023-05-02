@@ -20,17 +20,18 @@ using namespace std;
 void measureRunTime(int n, int iterationCount) {
     treeGenerator gen;
     std::chrono::high_resolution_clock::time_point total;
-    for (int i = 3; i <= n; ++i) {
+    for (int i = 3; i <= 2 * n; ++i) {
         std::chrono::high_resolution_clock::time_point current;
         long double pointCount = 0;
-        for (int j = 0; j < iterationCount; ++j) {
-            const auto& start = std::chrono::high_resolution_clock::now();
-            gen.pseudoGenerateGraph(i);
-            long long theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i);
-            const auto& stop = std::chrono::high_resolution_clock::now();
-            current += (stop - start);
-            pointCount += theoreticalCount;
-        }
+        if (i <= n)
+            for (int j = 0; j < iterationCount; ++j) {
+                const auto& start = std::chrono::high_resolution_clock::now();
+                gen.pseudoGenerateGraph(i);
+                long long theoreticalCount = getMovingPointCount(gen.getLastVertexByDepthCount(), gen.getLastEdgeLength(), i);
+                const auto& stop = std::chrono::high_resolution_clock::now();
+                current += (stop - start);
+                pointCount += theoreticalCount;
+            }
         std::chrono::duration<double, std::micro> dur = std::chrono::duration<double>(current.time_since_epoch());
         double micros = dur.count();
         micros /= iterationCount;
