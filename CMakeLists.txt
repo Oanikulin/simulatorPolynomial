@@ -109,5 +109,15 @@ add_executable(MetricGridAutotest src/simulation/verification/autoGridVerificati
 
 target_link_libraries(MetricGridAutotest gmp gmpxx)
 
+add_executable(ChainSimulationComparison src/simulation/verification/chainSimulationResult.cpp
+        src/graphs/universalGraph.cpp
+        src/graphs/trees/generalTree.cpp
+        src/simulation/simulation.cpp
+        src/simulation/verification/baseGenerator.cpp
+        src/simulation/verification/treeGenerator.cpp
+        src/simulation/verification/chainGenerator.cpp)
+
+target_link_libraries(ChainSimulationComparison gmp gmpxx)
+
 include(GoogleTest)
 gtest_discover_tests(treeTest)
