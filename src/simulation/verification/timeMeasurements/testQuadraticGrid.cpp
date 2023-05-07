@@ -20,16 +20,18 @@ using namespace std;
 void measureRunTime(int n, int iterationCount) {
     quadraticGridGenerator gen;
     std::chrono::high_resolution_clock::time_point total;
-    for (int i = 3; i <= n; ++i) {
+    for (int i = 3; i <= 2 * n; ++i) {
         std::chrono::high_resolution_clock::time_point current;
         long double pointCount = 0;
-        for (int j = 0; j < iterationCount; ++j) {
-            const auto& start = std::chrono::high_resolution_clock::now();
-            universalGraph g = gen.generateGraphPrecision(i, i);
-            int theoreticalCount = getQuadraticGridPointCount(gen.getLastEdgeLength(), i);
-            const auto& stop = std::chrono::high_resolution_clock::now();
-            current += (stop - start);
-            pointCount += theoreticalCount;
+        if (i <= n) {
+            for (int j = 0; j < iterationCount; ++j) {
+                const auto& start = std::chrono::high_resolution_clock::now();
+                universalGraph g = gen.generateGraphPrecision(i, i);
+                int theoreticalCount = getQuadraticGridPointCount(gen.getLastEdgeLength(), i);
+                const auto& stop = std::chrono::high_resolution_clock::now();
+                current += (stop - start);
+                pointCount += theoreticalCount;
+            }
         }
         std::chrono::duration<double, std::micro> dur = std::chrono::duration<double>(current.time_since_epoch());
         double micros = dur.count();
@@ -39,7 +41,8 @@ void measureRunTime(int n, int iterationCount) {
 
         pointCount = 0;
         std::chrono::high_resolution_clock::time_point currentHalf;
-        for (int j = 0; j < iterationCount; ++j) {
+        int tmpIterationCount = (i > n ? iterationCount / 2 : iterationCount);
+        for (int j = 0; j < tmpIterationCount; ++j) {
             const auto& start = std::chrono::high_resolution_clock::now();
             universalGraph g = gen.generateGraphPrecision(i, i);
             int theoreticalCount = getQuadraticGridPointCount(gen.getLastEdgeLength(), i / 2);
@@ -50,15 +53,15 @@ void measureRunTime(int n, int iterationCount) {
 
         dur = std::chrono::duration<double>(currentHalf.time_since_epoch());;
         micros = dur.count();
-        micros /= iterationCount;
-        pointCount /= iterationCount;
+        micros /= tmpIterationCount;
+        pointCount /= tmpIterationCount;
         std::cout << std::fixed << std::setprecision(20) << i << " " << i / 2 << " " << micros << " " << pointCount << std::endl;
     }
 }
 
 int main(int argc, char** argv) {
     std::mt19937 rand(time(0));
-    int maxn = 50;
+    int maxn = 25;
     if (argc != 1) {
         maxn = std::stoi(argv[1]);
     }

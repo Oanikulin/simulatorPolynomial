@@ -170,6 +170,8 @@ int getQuadraticGridPointCount(const std::pair<std::vector<mpq_class>, std::vect
         for (int jl = 0; jl < w; ++jl) {
             for (int i = 0; i <= il; ++i) {
                 for (int j = 0; j <= jl; ++j) {
+                    if (mpq_class(il) > time || mpq_class(jl) > time)
+                        continue;
                     if (i == 0 && j == 0 && il == 0 && jl == 0)
                         continue;
                     //std::cout << "syart " << i << " " << j << " " << il << " " << jl << std::endl;
